@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AFX Logistics – Saudi Arabia | One World, One Freight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --black:#0a0a0a;
+    --white:#f5f5f2;
+    --red:#d11a2a;
+    --red-dark:#9e0f1c;
+    --red-light:#ff2c3d;
+    --gray:#1c1c1c;
+    --gray-mid:#2e2e2e;
+    --gray-light:#888;
+    --border:#2a2a2a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--black);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-track{background:var(--black);}
+  ::-webkit-scrollbar-thumb{background:var(--red);}
+
+  /* ── NAV ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 5%;height:72px;
+    background:rgba(10,10,10,.92);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+  }
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-logo-mark{
+    width:38px;height:38px;background:var(--red);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;color:#fff;
+    clip-path:polygon(0 0,100% 0,100% 80%,80% 100%,0 100%);
+  }
+  .nav-logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;letter-spacing:2px;color:var(--white);}
+  .nav-logo-sub{font-size:9px;font-weight:400;letter-spacing:3px;color:var(--gray-light);display:block;margin-top:-3px;}
+  .nav-links{display:flex;gap:30px;list-style:none;}
+  .nav-links a{color:var(--gray-light);text-decoration:none;font-size:13px;letter-spacing:1.5px;font-weight:500;text-transform:uppercase;transition:.2s;}
+  .nav-links a:hover{color:var(--white);}
+  .nav-links .has-drop{position:relative;}
+  .nav-links .has-drop:hover .dropdown{opacity:1;pointer-events:all;transform:translateY(0);}
+  .dropdown{
+    position:absolute;top:100%;left:0;min-width:200px;
+    background:var(--gray);border:1px solid var(--border);
+    opacity:0;pointer-events:none;transform:translateY(8px);
+    transition:.2s;list-style:none;padding:8px 0;
+  }
+  .dropdown li a{display:block;padding:9px 18px;font-size:12px;letter-spacing:1px;color:var(--gray-light);}
+  .dropdown li a:hover{color:var(--white);background:var(--gray-mid);}
+  .nav-cta{
+    background:var(--red);color:#fff;
+    padding:9px 22px;font-size:11px;letter-spacing:2px;font-weight:700;text-transform:uppercase;
+    text-decoration:none;border:none;cursor:pointer;
+    clip-path:polygon(0 0,100% 0,100% 75%,92% 100%,0 100%);
+    transition:.2s;
+  }
+  .nav-cta:hover{background:var(--red-light);}
+
+  /* hamburger */
+  .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+  .ham span{display:block;width:24px;height:2px;background:var(--white);transition:.3s;}
+  .mobile-nav{
+    display:none;position:fixed;inset:0;background:var(--black);z-index:999;
+    flex-direction:column;align-items:center;justify-content:center;gap:30px;
+  }
+  .mobile-nav.open{display:flex;}
+  .mobile-nav a{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .mobile-nav a:hover{color:var(--red);}
+  .mobile-close{position:absolute;top:24px;right:5%;background:none;border:none;color:var(--white);font-size:28px;cursor:pointer;}
+
+  /* ── HERO ── */
+  .hero{
+    min-height:100vh;padding-top:72px;
+    position:relative;overflow:hidden;
+    display:flex;align-items:center;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,.02) 60px),
+      repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.02) 60px),
+      linear-gradient(135deg,#0a0a0a 0%,#140608 60%,#1a0407 100%);
+  }
+  .hero-accent{
+    position:absolute;right:-80px;top:50%;transform:translateY(-50%);
+    width:600px;height:600px;
+    background:radial-gradient(circle,rgba(209,26,42,.15) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .hero-line{
+    position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(180deg,transparent,var(--red),transparent);
+  }
+  .hero-content{position:relative;padding:0 5%;max-width:900px;}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--red);padding:6px 16px;
+    font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);
+    margin-bottom:32px;
+  }
+  .hero-badge::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .hero h1{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:900;font-size:clamp(52px,10vw,120px);
+    line-height:.92;text-transform:uppercase;letter-spacing:-2px;
+    margin-bottom:24px;
+  }
+  .hero h1 em{color:var(--red);font-style:normal;display:block;}
+  .hero-sub{
+    font-size:16px;font-weight:300;color:rgba(245,245,242,.65);
+    max-width:500px;line-height:1.8;margin-bottom:40px;
+  }
+  .hero-btns{display:flex;gap:16px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--red);color:#fff;
+    padding:14px 32px;font-size:12px;letter-spacing:2px;font-weight:700;text-transform:uppercase;
+    text-decoration:none;display:inline-block;
+    clip-path:polygon(0 0,100% 0,100% 75%,94% 100%,0 100%);
+    transition:.25s;
+  }
+  .btn-primary:hover{background:var(--red-light);transform:translateX(3px);}
+  .btn-outline{
+    border:1px solid rgba(245,245,242,.3);color:var(--white);
+    padding:14px 32px;font-size:12px;letter-spacing:2px;font-weight:600;text-transform:uppercase;
+    text-decoration:none;display:inline-block;transition:.25s;
+    background:transparent;cursor:pointer;
+  }
+  .btn-outline:hover{border-color:var(--white);}
+  .hero-stats{
+    position:absolute;right:5%;bottom:60px;
+    display:flex;gap:40px;
+  }
+  .stat{text-align:center;}
+  .stat-n{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:900;color:var(--red);line-height:1;}
+  .stat-l{font-size:11px;letter-spacing:2px;color:var(--gray-light);text-transform:uppercase;margin-top:4px;}
+
+  /* ── TICKER ── */
+  .ticker{background:var(--red);padding:12px 0;overflow:hidden;position:relative;}
+  .ticker-inner{display:flex;gap:0;white-space:nowrap;animation:ticker 30s linear infinite;}
+  .ticker-item{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;
+    padding:0 40px;color:#fff;
+  }
+  .ticker-item::after{content:'✦';margin-left:40px;opacity:.6;}
+  @keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* ── SECTION SHARED ── */
+  section{padding:100px 5%;}
+  .sec-tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+  .sec-title{
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;
+    font-size:clamp(32px,5vw,58px);text-transform:uppercase;line-height:1;
+    margin-bottom:20px;
+  }
+  .sec-title span{color:var(--red);}
+  .divider{width:48px;height:3px;background:var(--red);margin-bottom:32px;}
+
+  /* ── ABOUT ── */
+  .about{background:var(--gray);position:relative;overflow:hidden;}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+  .about-visual{position:relative;}
+  .about-box{
+    aspect-ratio:4/5;
+    background:linear-gradient(135deg,var(--gray-mid),var(--black));
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;position:relative;
+  }
+  .about-box-inner{
+    font-family:'Barlow Condensed',sans-serif;font-size:100px;font-weight:900;
+    color:rgba(209,26,42,.08);letter-spacing:-5px;text-transform:uppercase;
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  }
+  .about-icon-grid{
+    position:absolute;inset:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  }
+  .about-icon-cell{
+    background:rgba(255,255,255,.03);border:1px solid var(--border);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    padding:20px 10px;
+  }
+  .about-icon-cell svg{width:32px;height:32px;stroke:var(--red);fill:none;stroke-width:1.5;}
+  .about-icon-cell span{font-size:11px;letter-spacing:1.5px;color:var(--gray-light);text-transform:uppercase;}
+  .about-text p{color:rgba(245,245,242,.7);line-height:1.8;font-size:15px;margin-bottom:16px;}
+  .about-tag{
+    display:inline-block;border-left:3px solid var(--red);
+    padding:10px 16px;background:rgba(209,26,42,.06);
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--white);margin-top:12px;
+  }
+
+  /* ── SERVICES ── */
+  .services{background:var(--black);}
+  .services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;flex-wrap:wrap;gap:20px;}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;}
+  .service-card{
+    background:var(--gray);padding:40px 32px;
+    border-bottom:3px solid transparent;
+    transition:.3s;position:relative;overflow:hidden;cursor:default;
+  }
+  .service-card::before{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+    background:var(--red);transform:scaleX(0);transform-origin:left;transition:.3s;
+  }
+  .service-card:hover::before{transform:scaleX(1);}
+  .service-card:hover{background:var(--gray-mid);}
+  .service-num{
+    font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;
+    color:rgba(255,255,255,.04);position:absolute;top:20px;right:24px;line-height:1;
+  }
+  .service-icon{width:44px;height:44px;margin-bottom:24px;}
+  .service-icon svg{width:100%;height:100%;stroke:var(--red);fill:none;stroke-width:1.5;}
+  .service-card h3{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;
+    letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;
+  }
+  .service-card p{font-size:14px;color:rgba(245,245,242,.55);line-height:1.7;}
+  .service-link{
+    display:inline-flex;align-items:center;gap:6px;margin-top:20px;
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);
+    text-decoration:none;font-weight:600;transition:.2s;
+  }
+  .service-link:hover{gap:10px;}
+
+  /* ── WHY CHOOSE ── */
+  .why{background:var(--gray);overflow:hidden;}
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+  .why-features{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+  .why-feat{
+    background:var(--gray);padding:32px 28px;
+    transition:.2s;
+  }
+  .why-feat:hover{background:var(--gray-mid);}
+  .why-feat-icon{
+    width:40px;height:40px;background:rgba(209,26,42,.1);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+    border:1px solid rgba(209,26,42,.2);
+  }
+  .why-feat-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:1.5;}
+  .why-feat h4{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+  .why-feat p{font-size:13px;color:rgba(245,245,242,.55);line-height:1.6;}
+  .why-text-side{padding-top:20px;}
+  .why-text-side p{color:rgba(245,245,242,.65);line-height:1.8;font-size:15px;margin-bottom:24px;}
+  .why-certs{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
+  .cert-bar{
+    display:flex;align-items:center;gap:12px;padding:14px 20px;
+    background:rgba(255,255,255,.03);border:1px solid var(--border);
+    font-size:13px;color:rgba(245,245,242,.7);
+  }
+  .cert-bar::before{content:'';width:4px;height:100%;background:var(--red);flex-shrink:0;}
+
+  /* ── FOOTPRINTS ── */
+  .footprints{background:var(--black);}
+  .footprints-intro{max-width:600px;margin-bottom:60px;}
+  .footprints-intro p{color:rgba(245,245,242,.6);line-height:1.8;}
+  .countries-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:2px;}
+  .country-card{
+    background:var(--gray);padding:28px 20px;text-align:center;
+    transition:.2s;cursor:default;border-bottom:2px solid transparent;
+  }
+  .country-card:hover{background:var(--gray-mid);border-bottom-color:var(--red);}
+  .country-flag{font-size:36px;margin-bottom:12px;display:block;}
+  .country-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-light);}
+  .country-card.featured{background:rgba(209,26,42,.08);border:1px solid rgba(209,26,42,.3);}
+  .country-card.featured .country-name{color:var(--red);}
+
+  /* ── CONTACT ── */
+  .contact{background:var(--gray);position:relative;overflow:hidden;}
+  .contact::before{
+    content:'CONTACT';
+    position:absolute;right:-20px;top:50%;transform:translateY(-50%) rotate(90deg);
+    font-family:'Barlow Condensed',sans-serif;font-size:120px;font-weight:900;
+    color:rgba(255,255,255,.02);pointer-events:none;white-space:nowrap;
+  }
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+  .contact-info{display:flex;flex-direction:column;gap:32px;}
+  .contact-block h4{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+  .contact-block p,.contact-block a{font-size:15px;color:rgba(245,245,242,.8);text-decoration:none;line-height:1.6;}
+  .contact-block a:hover{color:var(--red);}
+  .contact-form{display:flex;flex-direction:column;gap:14px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-field{display:flex;flex-direction:column;gap:6px;}
+  .form-field label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray-light);}
+  .form-field input,.form-field select,.form-field textarea{
+    background:rgba(255,255,255,.04);border:1px solid var(--border);
+    color:var(--white);padding:12px 16px;font-size:14px;font-family:'Barlow',sans-serif;
+    outline:none;transition:.2s;
+  }
+  .form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--red);}
+  .form-field textarea{resize:vertical;min-height:100px;}
+  .form-field select option{background:var(--gray);}
+  .form-submit{
+    background:var(--red);color:#fff;border:none;cursor:pointer;
+    padding:14px 32px;font-size:12px;letter-spacing:2px;font-weight:700;text-transform:uppercase;
+    font-family:'Barlow',sans-serif;
+    clip-path:polygon(0 0,100% 0,100% 75%,96% 100%,0 100%);
+    transition:.2s;align-self:flex-start;
+  }
+  .form-submit:hover{background:var(--red-light);}
+
+  /* ── FOOTER ── */
+  footer{background:var(--black);border-top:1px solid var(--border);padding:60px 5% 30px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:60px;}
+  .footer-brand .nav-logo{margin-bottom:16px;}
+  .footer-brand p{font-size:13px;color:rgba(245,245,242,.45);line-height:1.7;max-width:280px;}
+  .footer-col h5{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:20px;}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .footer-col ul li a{font-size:13px;color:rgba(245,245,242,.45);text-decoration:none;transition:.2s;}
+  .footer-col ul li a:hover{color:var(--white);}
+  .footer-bottom{
+    border-top:1px solid var(--border);padding-top:24px;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  }
+  .footer-bottom p{font-size:12px;color:rgba(245,245,242,.3);}
+  .footer-bottom span{color:var(--red);}
+
+  /* ── WHATSAPP ── */
+  .wa-btn{
+    position:fixed;bottom:30px;right:30px;z-index:900;
+    width:52px;height:52px;background:#25d366;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;box-shadow:0 4px 20px rgba(37,211,102,.35);
+    text-decoration:none;transition:.2s;
+  }
+  .wa-btn:hover{transform:scale(1.1);}
+  .wa-btn svg{width:26px;height:26px;fill:#fff;}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    .nav-links,.nav-cta{display:none;}
+    .ham{display:flex;}
+    .hero h1{font-size:clamp(42px,12vw,80px);}
+    .hero-stats{display:none;}
+    .about-grid,.why-grid,.contact-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .services-header{flex-direction:column;align-items:flex-start;}
+  }
+  @media(max-width:600px){
+    section{padding:70px 5%;}
+    .form-row{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    .why-features{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#why">Why Us</a>
+  <a href="#footprints">Footprints</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#home">
+    <div class="nav-logo-mark">AFX</div>
+    <div>
+      <div class="nav-logo-text">AFX LOGISTICS</div>
+      <span class="nav-logo-sub">Saudi Arabia</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li class="has-drop">
+      <a href="#services">Services ▾</a>
+      <ul class="dropdown">
+        <li><a href="#services">Air Cargo</a></li>
+        <li><a href="#services">Sea Freight</a></li>
+        <li><a href="#services">Land Transport</a></li>
+        <li><a href="#services">Customs Brokerage</a></li>
+        <li><a href="#services">Warehousing</a></li>
+        <li><a href="#services">Animal Transport</a></li>
+      </ul>
+    </li>
+    <li><a href="#footprints">Footprints</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Request a Quote</a>
+  <button class="ham" id="hamBtn">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Arabian Freight Xpress · Saudi Arabia</div>
+    <h1>One World<em>One Freight.</em></h1>
+    <p class="hero-sub">World-class logistics and supply chain solutions rooted in Saudi Arabia — connecting the Kingdom to the Globe with precision, speed, and care.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#services">Explore Services</a>
+      <a class="btn-outline" href="#contact">Get a Quote</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Countries</div></div>
+    <div class="stat"><div class="stat-n">7</div><div class="stat-l">Services</div></div>
+    <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Support</div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <!-- doubled for seamless loop -->
+    <span class="ticker-item">Air Cargo</span>
+    <span class="ticker-item">Sea Freight</span>
+    <span class="ticker-item">GCC Land Transport</span>
+    <span class="ticker-item">Customs Brokerage</span>
+    <span class="ticker-item">Warehousing</span>
+    <span class="ticker-item">Animal Transport</span>
+    <span class="ticker-item">Cargo Loading &amp; Unloading</span>
+    <span class="ticker-item">Saudi Arabia</span>
+    <span class="ticker-item">Air Cargo</span>
+    <span class="ticker-item">Sea Freight</span>
+    <span class="ticker-item">GCC Land Transport</span>
+    <span class="ticker-item">Customs Brokerage</span>
+    <span class="ticker-item">Warehousing</span>
+    <span class="ticker-item">Animal Transport</span>
+    <span class="ticker-item">Cargo Loading &amp; Unloading</span>
+    <span class="ticker-item">Saudi Arabia</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-box">
+        <div class="about-box-inner">AFX</div>
+        <div class="about-icon-grid">
+          <div class="about-icon-cell">
+            <svg viewBox="0 0 24 24"><path d="M22 16.5H2M22 8H12M2 12h10M17 3l5 5-5 5"/></svg>
+            <span>Air</span>
+          </div>
+          <div class="about-icon-cell">
+            <svg viewBox="0 0 24 24"><path d="M3 17h18M5 17V9l7-6 7 6v8M9 17v-5h6v5"/></svg>
+            <span>Sea</span>
+          </div>
+          <div class="about-icon-cell">
+            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v6h-7V8zM5.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+            <span>Land</span>
+          </div>
+          <div class="about-icon-cell">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM9 9h6v6H9zM9 4v16M15 4v16M4 9h16M4 15h16"/></svg>
+            <span>Warehouse</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="sec-tag">About AFX</div>
+      <h2 class="sec-title">Seamless Logistics <span>Exceptional</span> Results</h2>
+      <div class="divider"></div>
+      <p>One World, One Freight — AFX (Arabian Freight Xpress). At AFX, we are committed to delivering world-class logistics and supply chain management services to businesses across a wide range of industries.</p>
+      <p>Headquartered in the heart of Dubai, UAE, with a dedicated presence in the Kingdom of Saudi Arabia, we offer comprehensive and customized solutions for air cargo, sea cargo, GCC land transportation, warehousing, customs brokerage, animal transport, and more.</p>
+      <p>With a strong and reliable presence across the GCC, USA, UK, China, Thailand, and India, AFX is equipped to handle global demands — ensuring your cargo moves faster, safer, and smarter, anywhere in the world.</p>
+      <div class="about-tag">A Sister Brand of AFX Logistics LLC · Dubai</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="sec-tag">What We Do</div>
+      <h2 class="sec-title">Our <span>Services</span></h2>
+      <div class="divider"></div>
+    </div>
+    <a class="btn-outline" href="#contact">Request a Quote →</a>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M22 16.5H2M22 8H12M2 12h10M17 3l5 5-5 5M12 8v8"/></svg></div>
+      <h3>Air Cargo</h3>
+      <p>Fast, secure, and efficient air freight solutions with global network access. Priority shipments with real-time tracking and expert handling to meet critical business timelines.</p>
+      <a class="service-link" href="#contact">Enquire ›</a>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M2 20h20M4 20V10l8-7 8 7v10M10 20v-6h4v6"/></svg></div>
+      <h3>Sea Freight</h3>
+      <p>Budget-friendly FCL and LCL options for regional and international shipments. Seamless logistics with secure ports and reliable delivery mechanisms.</p>
+      <a class="service-link" href="#contact">Enquire ›</a>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v6h-7V8zM5.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg></div>
+      <h3>GCC Land Transport</h3>
+      <p>End-to-end LTL and FTL deliveries across the GCC using advanced tracking systems, optimized fleet routes, and cost-effective scheduling.</p>
+      <a class="service-link" href="#contact">Enquire ›</a>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3-3 3 3M12 8v8M21 21H3M3 3h18v12H3z"/></svg></div>
+      <h3>Customs Brokerage</h3>
+      <p>Hassle-free import and export solutions. Our professional team handles all documentation, clearances, and government approvals for fast customs processing.</p>
+      <a class="service-link" href="#contact">Enquire ›</a>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 4v16M16 4v16M4 12h16"/></svg></div>
+      <h3>General Warehousing</h3>
+      <p>Strategically located, secure warehousing facilities supporting short- and long-term storage with inventory management and value-added services.</p>
+      <a class="service-link" href="#contact">Enquire ›</a>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
+      <h3>Cargo Loading &amp; Unloading</h3>
+      <p>Professional cargo handling at warehouses, ports, and customer sites. Trained teams and modern equipment ensure safe and efficient handling.</p>
+      <a class="service-link" href="#contact">Enquire ›</a>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">07</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M3 9l4-4 4 4M7 5v8M17 3s2 2 2 5-2 5-2 5M13 8h.01M17 8h.01M21 8h.01M13 16h8M13 12h4"/></svg></div>
+      <h3>Animal Transport</h3>
+      <p>Licensed, safe, and humane live animal transportation. Custom-designed vehicles complying with all regulatory and welfare standards for local and international transport.</p>
+      <a class="service-link" href="#contact">Enquire ›</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why" id="why">
+  <div class="why-grid">
+    <div class="why-text-side">
+      <div class="sec-tag">Why AFX</div>
+      <h2 class="sec-title">Your Trusted <span>Logistics</span> Partner</h2>
+      <div class="divider"></div>
+      <p>Choosing AFX means choosing efficiency, reliability, and a team that understands your business. With a global footprint and a deep commitment to personalized service, we provide smart, end-to-end logistics solutions that help your operations run smoother and faster.</p>
+      <p>Our proven expertise includes LTL/LCL consolidation, project cargo handling, RoRo and breakbulk shipments, along with complete international freight forwarding. We also offer optional cargo insurance for added peace of mind.</p>
+      <div class="why-certs">
+        <div class="cert-bar">ISO-Certified Operations & Compliance</div>
+        <div class="cert-bar">IATA Accredited Air Freight Handling</div>
+        <div class="cert-bar">Saudi Customs Authority Registered</div>
+        <div class="cert-bar">Optional Cargo Insurance Coverage</div>
+      </div>
+    </div>
+    <div>
+      <div class="why-features">
+        <div class="why-feat">
+          <div class="why-feat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h4>Reliable Delivery</h4>
+          <p>Your cargo arrives safely and on time, every single time — guaranteed.</p>
+        </div>
+        <div class="why-feat">
+          <div class="why-feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div>
+          <h4>Global Network</h4>
+          <p>Widespread presence across GCC and international hubs connecting you to the world.</p>
+        </div>
+        <div class="why-feat">
+          <div class="why-feat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <h4>Expert Team</h4>
+          <p>Skilled professionals committed to managing your logistics efficiently and with care.</p>
+        </div>
+        <div class="why-feat">
+          <div class="why-feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <h4>24/7 Support</h4>
+          <p>Dedicated customer service team available around the clock for your needs.</p>
+        </div>
+        <div class="why-feat">
+          <div class="why-feat-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+          <h4>Custom Solutions</h4>
+          <p>Tailored logistics strategies designed to fit your unique business requirements.</p>
+        </div>
+        <div class="why-feat">
+          <div class="why-feat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <h4>Competitive Pricing</h4>
+          <p>Cost-effective logistics solutions without ever compromising on quality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTPRINTS -->
+<section class="footprints" id="footprints">
+  <div class="footprints-intro">
+    <div class="sec-tag">Our Presence</div>
+    <h2 class="sec-title">Global <span>Footprints</span></h2>
+    <div class="divider"></div>
+    <p>AFX has witnessed explosive growth across the industry, providing peerless services in a well-coordinated and technologically advanced way throughout the world.</p>
+  </div>
+  <div class="countries-grid">
+    <div class="country-card featured">
+      <span class="country-flag">🇸🇦</span>
+      <div class="country-name">Saudi Arabia</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇦🇪</span>
+      <div class="country-name">UAE</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇧🇭</span>
+      <div class="country-name">Bahrain</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇰🇼</span>
+      <div class="country-name">Kuwait</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇴🇲</span>
+      <div class="country-name">Oman</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇶🇦</span>
+      <div class="country-name">Qatar</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇺🇸</span>
+      <div class="country-name">USA</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇬🇧</span>
+      <div class="country-name">UK</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇨🇳</span>
+      <div class="country-name">China</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇹🇭</span>
+      <div class="country-name">Thailand</div>
+    </div>
+    <div class="country-card">
+      <span class="country-flag">🇮🇳</span>
+      <div class="country-name">India</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="sec-tag">Get In Touch</div>
+      <h2 class="sec-title">Let's Move <span>Cargo</span> Together</h2>
+      <div class="divider"></div>
+      <div class="contact-info">
+        <div class="contact-block">
+          <h4>Saudi Arabia Office</h4>
+          <p>Kingdom of Saudi Arabia</p>
+        </div>
+        <div class="contact-block">
+          <h4>Phone / WhatsApp</h4>
+          <a href="tel:+966538111996">+966 538 111 996</a><br/>
+          <a href="https://wa.me/971521421555">+971 521 421 555 (WhatsApp)</a>
+        </div>
+        <div class="contact-block">
+          <h4>Email</h4>
+          <a href="mailto:info@afxlogisticsllc.com">info@afxlogisticsllc.com</a>
+        </div>
+        <div class="contact-block">
+          <h4>Parent Company</h4>
+          <a href="https://www.afxlogisticsllc.com" target="_blank">AFX Logistics LLC · Dubai, UAE ↗</a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Full Name</label>
+            <input type="text" placeholder="Your name"/>
+          </div>
+          <div class="form-field">
+            <label>Company</label>
+            <input type="text" placeholder="Company name"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com"/>
+          </div>
+          <div class="form-field">
+            <label>Phone</label>
+            <input type="tel" placeholder="+966 ..."/>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Service Required</label>
+          <select>
+            <option value="">Select a service</option>
+            <option>Air Cargo</option>
+            <option>Sea Freight</option>
+            <option>GCC Land Transport</option>
+            <option>Customs Brokerage</option>
+            <option>General Warehousing</option>
+            <option>Cargo Loading & Unloading</option>
+            <option>Animal Transport</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Message</label>
+          <textarea placeholder="Tell us about your shipment requirements..."></textarea>
+        </div>
+        <button class="form-submit">Send Enquiry →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="display:inline-flex;margin-bottom:16px;">
+        <div class="nav-logo-mark">AFX</div>
+        <div>
+          <div class="nav-logo-text">AFX LOGISTICS</div>
+          <span class="nav-logo-sub">Saudi Arabia</span>
+        </div>
+      </div>
+      <p>One World, One Freight. Delivering world-class logistics solutions across Saudi Arabia and beyond. A sister brand of AFX Logistics LLC, Dubai.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">Air Cargo</a></li>
+        <li><a href="#services">Sea Freight</a></li>
+        <li><a href="#services">Land Transport</a></li>
+        <li><a href="#services">Customs Brokerage</a></li>
+        <li><a href="#services">Warehousing</a></li>
+        <li><a href="#services">Animal Transport</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#why">Why AFX</a></li>
+        <li><a href="#footprints">Footprints</a></li>
+        <li><a href="#contact">Careers</a></li>
+        <li><a href="https://www.afxlogisticsllc.com" target="_blank">Parent Company ↗</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:info@afxlogisticsllc.com">info@afxlogisticsllc.com</a></li>
+        <li><a href="tel:+966538111996">+966 538 111 996</a></li>
+        <li><a href="https://wa.me/971521421555">+971 521 421 555</a></li>
+        <li><a href="#contact">Saudi Arabia</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 AFX Logistics · Saudi Arabia. A sister brand of <span>AFX Logistics LLC</span>, Dubai UAE.</p>
+    <p>Designed for <span>Arabian Freight Xpress</span></p>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOATING BTN -->
+<a class="wa-btn" href="https://wa.me/971521421555" target="_blank" title="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // hamburger
+  document.getElementById('hamBtn').addEventListener('click',()=>{
+    document.getElementById('mobileNav').classList.add('open');
+  });
+  document.getElementById('mobileClose').addEventListener('click',()=>{
+    document.getElementById('mobileNav').classList.remove('open');
+  });
+  document.querySelectorAll('.mobile-nav a').forEach(a=>{
+    a.addEventListener('click',()=>document.getElementById('mobileNav').classList.remove('open'));
+  });
+
+  // nav shrink on scroll
+  window.addEventListener('scroll',()=>{
+    const nav=document.querySelector('nav');
+    if(window.scrollY>60){nav.style.height='58px';}
+    else{nav.style.height='72px';}
+  });
+
+  // fade-in on scroll
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}
+    });
+  },{threshold:.1});
+  document.querySelectorAll('.service-card,.why-feat,.country-card,.about-icon-cell').forEach(el=>{
+    el.style.opacity='0';el.style.transform='translateY(24px)';el.style.transition='opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+
+  // form submit
+  document.querySelector('.form-submit').addEventListener('click',function(){
+    this.textContent='Message Sent ✓';
+    this.style.background='#1a7a3c';
+    setTimeout(()=>{this.textContent='Send Enquiry →';this.style.background='';},3000);
+  });
+</script>
+</body>
+</html>
